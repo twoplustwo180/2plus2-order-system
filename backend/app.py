@@ -21,7 +21,10 @@ def submit_order():
     data = request.json
     items = data.get('items')
     total = data.get('total')
-    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    from datetime import datetime
+    from zoneinfo import ZoneInfo  # Python 3.9+
+
+    created_at = datetime.now(ZoneInfo("Asia/Taipei")).strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("INSERT INTO orders (items, total, created_at) VALUES (?, ?, ?)", (items, total, created_at))
     conn.commit()
     return jsonify({'message': '訂單已送出'})
