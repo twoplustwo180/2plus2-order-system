@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>購物車</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+  <h1 class="text-2xl font-bold mb-4">購物車</h1>
+  <ul id="cart-list" class="mb-4"></ul>
+  <div class="mb-4">總金額：<span id="total-price">$0</span></div>
+  <button id="submit-order" class="bg-green-600 text-white py-2 px-4 rounded">送出訂單</button>
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cartList = document.getElementById('cart-list');
+    const totalPriceEl = document.getElementById('total-price');
+
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.name} - $${item.price}`;
+      cartList.appendChild(li);
+      total += item.price;
+    });
+    totalPriceEl.textContent = `$${total}`;
+
+    document.getElementById('submit-order').onclick = async () => {
+      await fetch('https://your-backend-url/submit-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart.map(i => i.name).join(', '), total })
+      });
+      localStorage.removeItem('cart');
+      window.location.href = 'success.html';
+    };
+  </script>
+</body>
+</html>
