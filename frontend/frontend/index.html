@@ -2,14 +2,60 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>2加2菜單</title>
+  <title>2加2 菜單</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+    }
+  </style>
 </head>
-<body class="p-4">
-  <h1 class="text-2xl font-bold mb-4">2加2 菜單</h1>
-  <div id="menu" class="grid grid-cols-1 gap-4"></div>
-  <a href="cart.html" class="fixed bottom-4 right-4 bg-blue-600 text-white py-2 px-4 rounded-full">購物車</a>
-  <script src="script.js"></script>
+<body class="bg-gray-50 min-h-screen p-4">
+  <div class="max-w-xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-6">2加2 菜單</h1>
+
+    <div id="menu" class="space-y-4"></div>
+
+    <div class="fixed bottom-6 right-6">
+      <a href="cart.html" class="bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg">購物車</a>
+    </div>
+  </div>
+
+  <script>
+    const menu = [
+      { name: '香煎鮮魚', price: 580 },
+      { name: '豚香檸檬鹽麴', price: 450 },
+      { name: '苦茶油雞', price: 480 },
+      { name: '匈牙利燉牛肉', price: 480 },
+      { name: '嫩煎雞腿咖哩飯', price: 300 },
+      { name: '蔬食咖哩飯', price: 300 },
+      { name: '綜合炸物拼盤', price: 280 },
+      { name: '香柚茶', price: 150 },
+      { name: '可可牛奶', price: 150 },
+    ];
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const menuContainer = document.getElementById('menu');
+
+    menu.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'bg-white p-4 rounded-xl shadow flex justify-between items-center';
+      div.innerHTML = `
+        <div>
+          <div class="text-lg font-semibold">${item.name}</div>
+          <div class="text-gray-500">$${item.price}</div>
+        </div>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick='addToCart("${item.name}", ${item.price})'>加入</button>
+      `;
+      menuContainer.appendChild(div);
+    });
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} 已加入購物車！`);
+    }
+  </script>
 </body>
 </html>
