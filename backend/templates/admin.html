@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>後台訂單管理</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    h1 { margin-bottom: 1rem; }
+    .order { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>訂單管理</h1>
+  {% for order in orders %}
+    <div class="order">
+      <strong>訂單時間：</strong>{{ order[3] }}<br>
+      <strong>項目：</strong>{{ order[1] }}<br>
+      <strong>總金額：</strong>${{ order[2] }}<br>
+    </div>
+  {% endfor %}
+</body>
+</html>
