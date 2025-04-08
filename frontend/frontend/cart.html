@@ -25,7 +25,7 @@
     totalPriceEl.textContent = `$${total}`;
 
     document.getElementById('submit-order').onclick = async () => {
-      await fetch('https://your-backend-url/submit-order', {
+      await fetch('https://twoplus2-backend.onrender.com/submit-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: cart.map(i => i.name).join(', '), total })
