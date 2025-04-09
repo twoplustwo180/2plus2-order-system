@@ -3,22 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>購物車</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="p-4">
-  <h1 class="text-2xl font-bold mb-4">購物車</h1>
-  <ul id="cart-list" class="mb-4"></ul>
-  <div class="mb-4">總金額：<span id="total-price">$0</span></div>
-  <button id="submit-order" class="bg-green-600 text-white py-2 px-4 rounded">送出訂單</button>
+<body class="bg-gray-50 min-h-screen p-4">
+  <div class="max-w-xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6 text-center">購物車</h1>
+    <ul id="cart-list" class="space-y-3 mb-4"></ul>
+    <div class="text-right text-lg mb-6">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
+    <button id="submit-order" class="w-full bg-green-600 text-white py-3 rounded-lg shadow-md">送出訂單</button>
+  </div>
+
   <script>
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const cartList = document.getElementById('cart-list');
     const totalPriceEl = document.getElementById('total-price');
-
     let total = 0;
+
     cart.forEach(item => {
       const li = document.createElement('li');
-      li.textContent = `${item.name} - $${item.price}`;
+      li.className = "bg-white rounded-xl p-3 shadow flex justify-between items-center";
+      li.innerHTML = `<div>${item.name}</div><div>$${item.price}</div>`;
       cartList.appendChild(li);
       total += item.price;
     });
