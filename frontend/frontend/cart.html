@@ -15,29 +15,87 @@
   </div>
 
   <script>
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const cartList = document.getElementById('cart-list');
-    const totalPriceEl = document.getElementById('total-price');
-    let total = 0;
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-    cart.forEach(item => {
-      const li = document.createElement('li');
-      li.className = "bg-white rounded-xl p-3 shadow flex justify-between items-center";
-      li.innerHTML = `<div>${item.name}</div><div>$${item.price}</div>`;
-      cartList.appendChild(li);
-      total += item.price;
-    });
-    totalPriceEl.textContent = `$${total}`;
+    function groupCart(cart) {
+      const grouped = {};
+      cart.forEach(item => {
+        if (!grouped[item.name]) {
+          grouped[item.name] = { ...item, quantity: 1 };
+        } else {
+          grouped[item.name].quantity += 1;
+        }
+      });
+      return grouped;
+    }
+
+    function saveCart(grouped) {
+      const flat = [];
+      Object.values(grouped).forEach(item => {
+        for (let i = 0; i < item.quantity; i++) {
+          flat.push({ name: item.name, price: item.price });
+        }
+      });
+      localStorage.setItem('cart', JSON.stringify(flat));
+      cart = flat;
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cart-list');
+      const totalPriceEl = document.getElementById('total-price');
+      cartList.innerHTML = '';
+      let total = 0;
+
+      const grouped = groupCart(cart);
+
+      Object.values(grouped).forEach(item => {
+        const li = document.createElement('li');
+        li.className = "bg-white rounded-xl p-3 shadow flex justify-between items-center";
+
+        li.innerHTML = `
+          <div>
+            <div class="font-semibold">${item.name}</div>
+            <div class="text-gray-600">$${item.price} x ${item.quantity}</div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="updateQuantity('${item.name}', -1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
+            <span>${item.quantity}</span>
+            <button onclick="updateQuantity('${item.name}', 1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
+          </div>
+        `;
+
+        cartList.appendChild(li);
+        total += item.price * item.quantity;
+      });
+
+      totalPriceEl.textContent = `$${total}`;
+    }
+
+    function updateQuantity(name, delta) {
+      const grouped = groupCart(cart);
+      if (!grouped[name]) return;
+
+      grouped[name].quantity += delta;
+      if (grouped[name].quantity <= 0) {
+        delete grouped[name];
+      }
+      saveCart(grouped);
+      renderCart();
+    }
 
     document.getElementById('submit-order').onclick = async () => {
+      const items = cart.map(i => i.name).join(', ');
+      const total = cart.reduce((sum, i) => sum + i.price, 0);
       await fetch('https://twoplus2-backend.onrender.com/submit-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart.map(i => i.name).join(', '), total })
+        body: JSON.stringify({ items, total })
       });
       localStorage.removeItem('cart');
       window.location.href = 'success.html';
     };
+
+    renderCart();
   </script>
 </body>
 </html>
