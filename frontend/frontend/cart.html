@@ -10,17 +10,13 @@
   <div class="max-w-xl mx-auto">
     <h1 class="text-2xl font-bold mb-6 text-center">購物車</h1>
     <ul id="cart-list" class="space-y-3 mb-4"></ul>
-<div class="text-right text-lg mb-2">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
+    <div class="text-right text-lg mb-2">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
 
-<a href="index.html" class="block w-full text-center bg-gray-200 text-gray-800 py-3 rounded-lg shadow-md hover:bg-gray-300 mb-4">
-  &larr; 回到菜單
-</a>
+    <a href="index.html" class="block w-full text-center bg-gray-200 text-gray-800 py-3 rounded-lg shadow-md hover:bg-gray-300 mb-4">
+      &larr; 回到菜單
+    </a>
 
-<button id="submit-order" class="w-full bg-green-600 text-white py-3 rounded-lg shadow-md hover:bg-green-700">
-  送出訂單
-</button>
-
-
+    <button id="submit-order" class="w-full bg-green-600 text-white py-3 rounded-lg shadow-md hover:bg-green-700">送出訂單</button>
   </div>
 
   <script>
@@ -93,13 +89,16 @@
     }
 
     document.getElementById('submit-order').onclick = async () => {
-      const items = cart.map(i => i.name).join(', ');
+      const grouped = groupCart(cart);
+      const items = Object.values(grouped).map(i => `${i.name} x${i.quantity}`).join(', ');
       const total = cart.reduce((sum, i) => sum + i.price, 0);
+
       await fetch('https://twoplus2-backend.onrender.com/submit-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items, total })
       });
+
       localStorage.removeItem('cart');
       window.location.href = 'success.html';
     };
