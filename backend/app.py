@@ -4,6 +4,7 @@ import sqlite3
 from datetime import datetime
 import csv
 import io
+from pytz import timezone
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -48,7 +49,8 @@ def submit_order():
     data = request.json
     items = data.get('items')
     total = data.get('total')
-    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    tz = timezone('Asia/Taipei')
+    created_at = datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("INSERT INTO orders (items, total, created_at) VALUES (?, ?, ?)", (items, total, created_at))
     conn.commit()
     return jsonify({'message': '訂單已送出'})
