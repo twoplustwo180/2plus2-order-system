@@ -14,73 +14,108 @@
 <body class="bg-gray-50 min-h-screen p-4">
   <div class="max-w-xl mx-auto">
     <h1 class="text-3xl font-bold text-center mb-6">2加2 菜單</h1>
-
-    <div id="menu" class="space-y-4"></div>
-
+    <div id="menu" class="space-y-6"></div>
     <div class="fixed bottom-6 right-6">
       <a href="cart.html" class="bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg">購物車</a>
     </div>
   </div>
 
   <script>
-    const menu = [
-      { name: '海陸雙主餐（鮮魚、鹽麴五花肉-台灣豬）\nSURF AND TURF', price: 580 },
-      { name: '香煎鮮魚（本地現流海魚）\nPAN-FRIED FISH', price: '時價' },
-      { name: '現烤鮮魚（本地現流海魚）\nGRILLED FRESH FISH', price: '時價' },
-
-      { name: '豚香檸檬鹽麴（鹽麴五花肉-台灣豬）\nLEMON SHIO KOJI PORK', price: 450 },
-      { name: '苦茶油雞（阿里山苦茶油）\nSTIR-FRIED CHICKEN WITH CAMELLIA OIL', price: 480 },
-      { name: '匈牙利燉牛肉（澳洲牛肉）\nHUNGARIAN BEEF GOULASH', price: 480 },
-      { name: '嫩煎雞腿咖哩\nCHICKEN LEG CURRY RICE', price: 300 },
-
-      { name: '鹽麴味噌燉菜（素食）\nSHIO KOJI MISO STEW', price: 450 },
-      { name: '蔬食咖哩飯（五辛素）\nVEGETARIAN CURRY RICE', price: 300 },
-
-      { name: '武吉職人鬆餅\nWAFFLE', price: 160 },
-      { name: '鬆餅水果沙拉拼盤\nWAFFLES & FRESH FRUIT SALAD', price: 300 },
-      { name: '豬香溫沙拉（梅花肉-台灣豬、在地小農生菜）\nPLUM PORK & SALAD', price: 280 },
-      { name: '蔬食溫沙拉（在地小農生菜）\nVEGETARIAN WARM SALAD', price: 260 },
-
-      { name: '雙人炸物拼盤（魚條、花枝、香酥雞、杏鮑菇、洋蔥圈、薯條、2杯飲品任選）\nFRIED COMBO PLATTER (2P)', price: 499 },
-      { name: '素雙人炸物拼盤（智慧糕、杏鮑菇、時蘇、薯條、2杯飲品任選）\nVEGETARIAN FRIED COMBO (2P)', price: 499 },
-      { name: '薯條\nFRIES', price: 99 },
-      { name: '杏鮑菇\nKING OYSTER MUSHROOM', price: 99 },
-      { name: '洋蔥圈\nONION RINGS', price: 99 },
-      { name: '花枝排\nCUTTLEFISH STEAK', price: 150 },
-      { name: '酥炸魚塊\nFRIED FISH CUBES', price: 180 },
-    ];
-
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const menuContainer = document.getElementById('menu');
 
-    menu.forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'bg-white p-4 rounded-xl shadow flex justify-between items-center';
+    const categorizedMenu = [
+      {
+        category: '漁港風味',
+        emoji: '🐟',
+        items: [
+          { name: '海陸雙主餐（鮮魚、鹽麴五花肉-台灣豬）\nSURF AND TURF', price: 580 },
+          { name: '香煎鮮魚（本地現流海魚）\nPAN-FRIED FISH', price: '時價' },
+          { name: '現烤鮮魚（本地現流海魚）\nGRILLED FRESH FISH', price: '時價' },
+        ]
+      },
+      {
+        category: '私房口袋',
+        emoji: '🍱',
+        items: [
+          { name: '豚香檸檬鹽麴（鹽麴五花肉-台灣豬）\nLEMON SHIO KOJI PORK', price: 450 },
+          { name: '苦茶油雞（阿里山苦茶油）\nSTIR-FRIED CHICKEN WITH CAMELLIA OIL', price: 480 },
+          { name: '匈牙利燉牛肉（澳洲牛肉）\nHUNGARIAN BEEF GOULASH', price: 480 },
+          { name: '嫩煎雞腿咖哩\nCHICKEN LEG CURRY RICE', price: 300 },
+        ]
+      },
+      {
+        category: '田園蔬香',
+        emoji: '🥬',
+        items: [
+          { name: '鹽麴味噌燉菜（素食）\nSHIO KOJI MISO STEW', price: 450 },
+          { name: '蔬食咖哩飯（五辛素）\nVEGETARIAN CURRY RICE', price: 300 },
+        ]
+      },
+      {
+        category: '下午時光',
+        emoji: '☕',
+        items: [
+          { name: '武吉職人鬆餅\nWAFFLE', price: 160 },
+          { name: '鬆餅水果沙拉拼盤\nWAFFLES & FRESH FRUIT SALAD', price: 300 },
+          { name: '豬香溫沙拉（梅花肉-台灣豬、在地小農生菜）\nPLUM PORK & SALAD', price: 280 },
+          { name: '蔬食溫沙拉（在地小農生菜）\nVEGETARIAN WARM SALAD', price: 260 },
+        ]
+      },
+      {
+        category: '炸物小町',
+        emoji: '🍤',
+        items: [
+          { name: '雙人炸物拼盤（魚條、花枝、香酥雞、杏鮑菇、洋蔥圈、薯條、2杯飲品任選）\nFRIED COMBO PLATTER (2P)', price: 499 },
+          { name: '素雙人炸物拼盤（智慧糕、杏鮑菇、時蘇、薯條、2杯飲品任選）\nVEGETARIAN FRIED COMBO (2P)', price: 499 },
+          { name: '薯條\nFRIES', price: 99 },
+          { name: '杏鮑菇\nKING OYSTER MUSHROOM', price: 99 },
+          { name: '洋蔥圈\nONION RINGS', price: 99 },
+          { name: '花枝排\nCUTTLEFISH STEAK', price: 150 },
+          { name: '酥炸魚塊\nFRIED FISH CUBES', price: 180 },
+        ]
+      },
+    ];
 
-      const isMarketPrice = item.price === '時價';
+    categorizedMenu.forEach(group => {
+      const section = document.createElement('div');
 
-      const itemInfo = document.createElement('div');
-      itemInfo.innerHTML = `
-        <div class="text-lg font-semibold whitespace-pre-line">${item.name}</div>
-        <div class="text-gray-500">${isMarketPrice ? '時價' : `$${item.price}`}</div>
-      `;
+      const heading = document.createElement('h2');
+      heading.className = 'text-xl font-bold border-b pb-1 mb-3';
+      heading.textContent = `${group.emoji} ${group.category}`;
+      section.appendChild(heading);
 
-      const button = document.createElement('button');
-      button.className = 'bg-blue-500 text-white px-4 py-2 rounded';
-      button.textContent = '加入';
-      button.onclick = () => {
-        if (isMarketPrice) {
-          alert('此品項為時價，請洽店員點餐');
-        } else {
-          cart.push({ name: item.name, price: item.price });
-          localStorage.setItem('cart', JSON.stringify(cart));
-          alert(`${item.name} 已加入購物車！`);
-        }
-      };
+      group.items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'bg-white p-4 rounded-xl shadow flex justify-between items-center';
 
-      div.appendChild(itemInfo);
-      div.appendChild(button);
-      menuContainer.appendChild(div);
+        const isMarketPrice = item.price === '時價';
+
+        const itemInfo = document.createElement('div');
+        itemInfo.innerHTML = `
+          <div class="text-lg font-semibold whitespace-pre-line">${item.name}</div>
+          <div class="text-gray-500">${isMarketPrice ? '時價' : `$${item.price}`}</div>
+        `;
+
+        const button = document.createElement('button');
+        button.className = 'bg-blue-500 text-white px-4 py-2 rounded';
+        button.textContent = '加入';
+        button.onclick = () => {
+          if (isMarketPrice) {
+            alert('此品項為時價，請洽店員點餐');
+          } else {
+            cart.push({ name: item.name, price: item.price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${item.name} 已加入購物車！`);
+          }
+        };
+
+        div.appendChild(itemInfo);
+        div.appendChild(button);
+        section.appendChild(div);
+      });
+
+      menuContainer.appendChild(section);
     });
   </script>
 </body>
