@@ -28,7 +28,7 @@
           <a href="/delete/{{ order[0] }}" class="text-red-500 hover:text-red-700 text-sm">刪除</a>
         </div>
         <div><strong>時間：</strong>{{ order[3] }}</div>
-        <div class="whitespace-pre-wrap"><strong>品項：</strong>{{ order[1] }}</div>
+        <div><strong>品項：</strong>{{ order[1].split('\n')[0].split('（')[0] }}</div>
         <div><strong>總金額：</strong>${{ order[2] }}</div>
       </div>
     {% else %}
