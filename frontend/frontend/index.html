@@ -50,7 +50,7 @@
       { name: '酥炸魚塊\nFRIED FISH CUBES', price: 180 },
     ];
 
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const menuContainer = document.getElementById('menu');
 
     menu.forEach(item => {
