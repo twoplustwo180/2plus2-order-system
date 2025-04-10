@@ -10,7 +10,7 @@
   <div class="max-w-xl mx-auto">
     <h1 class="text-2xl font-bold mb-6 text-center">購物車</h1>
     <ul id="cart-list" class="space-y-3 mb-4"></ul>
-    <div class="text-right text-lg mb-2">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
+    <div class="text-right text-lg mb-4">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
 
     <a href="index.html" class="block w-full text-center bg-gray-200 text-gray-800 py-3 rounded-lg shadow-md hover:bg-gray-300 mb-4">
       &larr; 回到菜單
@@ -45,17 +45,6 @@
       cart = flat;
     }
 
-    function updateQuantity(name, delta) {
-      const grouped = groupCart(cart);
-      if (!grouped[name]) return;
-      grouped[name].quantity += delta;
-      if (grouped[name].quantity <= 0) {
-        delete grouped[name];
-      }
-      saveCart(grouped);
-      renderCart();
-    }
-
     function renderCart() {
       const cartList = document.getElementById('cart-list');
       const totalPriceEl = document.getElementById('total-price');
@@ -68,23 +57,51 @@
         const li = document.createElement('li');
         li.className = "bg-white rounded-xl p-3 shadow flex justify-between items-center";
 
-        li.innerHTML = `
-          <div>
-            <div class="font-semibold">${item.name}</div>
-            <div class="text-gray-600">$${item.price} x ${item.quantity}</div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <button onclick="updateQuantity('${item.name}', -1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="updateQuantity('${item.name}', 1)" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
-          </div>
+        const itemDiv = document.createElement('div');
+        itemDiv.innerHTML = `
+          <div class="font-semibold">${item.name}</div>
+          <div class="text-gray-600">$${item.price} x ${item.quantity}</div>
         `;
 
+        const controls = document.createElement('div');
+        controls.className = 'flex items-center space-x-2';
+
+        const minusBtn = document.createElement('button');
+        minusBtn.className = 'px-2 py-1 bg-gray-200 rounded hover:bg-gray-300';
+        minusBtn.textContent = '-';
+        minusBtn.onclick = () => updateQuantity(item.name, -1);
+
+        const quantity = document.createElement('span');
+        quantity.textContent = item.quantity;
+
+        const plusBtn = document.createElement('button');
+        plusBtn.className = 'px-2 py-1 bg-gray-200 rounded hover:bg-gray-300';
+        plusBtn.textContent = '+';
+        plusBtn.onclick = () => updateQuantity(item.name, 1);
+
+        controls.appendChild(minusBtn);
+        controls.appendChild(quantity);
+        controls.appendChild(plusBtn);
+
+        li.appendChild(itemDiv);
+        li.appendChild(controls);
         cartList.appendChild(li);
+
         total += item.price * item.quantity;
       });
 
       totalPriceEl.textContent = `$${total}`;
+    }
+
+    function updateQuantity(name, delta) {
+      const grouped = groupCart(cart);
+      if (!grouped[name]) return;
+      grouped[name].quantity += delta;
+      if (grouped[name].quantity <= 0) {
+        delete grouped[name];
+      }
+      saveCart(grouped);
+      renderCart();
     }
 
     document.getElementById('submit-order').onclick = async () => {
