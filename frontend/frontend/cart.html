@@ -45,6 +45,17 @@
       cart = flat;
     }
 
+    function updateQuantity(name, delta) {
+      const grouped = groupCart(cart);
+      if (!grouped[name]) return;
+      grouped[name].quantity += delta;
+      if (grouped[name].quantity <= 0) {
+        delete grouped[name];
+      }
+      saveCart(grouped);
+      renderCart();
+    }
+
     function renderCart() {
       const cartList = document.getElementById('cart-list');
       const totalPriceEl = document.getElementById('total-price');
@@ -74,18 +85,6 @@
       });
 
       totalPriceEl.textContent = `$${total}`;
-    }
-
-    function updateQuantity(name, delta) {
-      const grouped = groupCart(cart);
-      if (!grouped[name]) return;
-
-      grouped[name].quantity += delta;
-      if (grouped[name].quantity <= 0) {
-        delete grouped[name];
-      }
-      saveCart(grouped);
-      renderCart();
     }
 
     document.getElementById('submit-order').onclick = async () => {
