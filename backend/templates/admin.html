@@ -25,11 +25,17 @@
       <div class="border rounded p-4 mb-3 bg-gray-50 shadow-sm">
         <div class="flex justify-between items-center mb-2">
           <div class="font-semibold text-lg">#{{ order[0] }}</div>
-          <a href="/delete/{{ order[0] }}" class="text-red-500 hover:text-red-700 text-sm">刪除</a>
+          <div class="flex space-x-2">
+            {% if order[4] == '未結帳' %}
+              <a href="/checkout/{{ order[0] }}" class="text-green-600 hover:text-green-800 text-sm">✔️ 標記結帳</a>
+            {% endif %}
+            <a href="/delete/{{ order[0] }}" class="text-red-500 hover:text-red-700 text-sm">🗑 刪除</a>
+          </div>
         </div>
         <div><strong>時間：</strong>{{ order[3] }}</div>
         <div><strong>品項：</strong>{{ order[1].split('\n')[0].split('（')[0] }}</div>
         <div><strong>總金額：</strong>${{ order[2] }}</div>
+        <div><strong>狀態：</strong>{{ order[4] }}</div>
       </div>
     {% else %}
       <p class="text-gray-500 text-center">目前沒有訂單。</p>
