@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>歷史訂單紀錄</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <div class="max-w-xl mx-auto bg-white rounded-xl shadow p-6">
+    <h1 class="text-xl font-bold mb-4 text-center">歷史訂單紀錄</h1>
+    <div id="history" class="space-y-4 text-gray-800"></div>
+    <div class="text-center mt-6">
+      <a href="index.html" class="text-blue-600 hover:underline">← 回到菜單</a>
+    </div>
+  </div>
+
+  <script>
+    const historyEl = document.getElementById('history');
+    const history = JSON.parse(localStorage.getItem('orderHistory') || '[]').reverse();
+
+    if (history.length === 0) {
+      historyEl.innerHTML = '<p class="text-gray-500">目前沒有任何訂單紀錄。</p>';
+    } else {
+      history.forEach((order, index) => {
+        const div = document.createElement('div');
+        div.className = "border rounded p-3 bg-gray-100";
+        div.innerHTML = `
+          <div class="text-sm text-gray-500">#${history.length - index}｜${order.time}</div>
+          <div class="whitespace-pre-wrap mt-1"><strong>品項：</strong>\n${order.items}</div>
+          <div><strong>桌號：</strong>${order.table}</div>
+          <div><strong>備註：</strong>${order.note || '—'}</div>
+          <div><strong>總金額：</strong>$${order.total}</div>
+        `;
+        historyEl.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
