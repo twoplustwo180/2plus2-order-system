@@ -2,13 +2,50 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>感謝您的訂購！</title>
+  <title>訂單完成</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-green-50 min-h-screen flex flex-col justify-center items-center text-center p-6">
-  <h1 class="text-3xl font-bold text-green-700 mb-4">感謝您的訂購！</h1>
-  <p class="text-gray-700 text-lg">我們已收到您的訂單，請耐心等候餐點製作。</p>
-  <a href="index.html" class="mt-6 inline-block text-blue-600 hover:underline">回到菜單</a>
+<body class="bg-green-50 min-h-screen p-6">
+  <div class="max-w-xl mx-auto bg-white rounded-xl shadow p-6">
+    <h1 class="text-2xl font-bold text-green-700 mb-4 text-center">感謝您的訂餐！</h1>
+
+    <div id="order-summary" class="text-gray-800 space-y-3 text-base">
+      <p>您點的餐點：</p>
+      <ul id="order-items" class="list-disc list-inside text-gray-700"></ul>
+      <p id="order-table"></p>
+      <p id="order-note"></p>
+      <p id="order-total" class="font-bold"></p>
+    </div>
+
+    <div class="mt-6 text-center">
+      <a href="index.html" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 shadow">返回菜單</a>
+    </div>
+  </div>
+
+  <script>
+    // 從 localStorage 取出最後一筆訂單記錄
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
+
+    if (lastOrder) {
+      const orderList = lastOrder.items.split('\n');
+      const orderItems = document.getElementById('order-items');
+      orderList.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        orderItems.appendChild(li);
+      });
+
+      document.getElementById('order-total').textContent = `總金額：$${lastOrder.total}`;
+      document.getElementById('order-table').textContent = `桌號：${lastOrder.table}`;
+      document.getElementById('order-note').textContent = lastOrder.note ? `備註：${lastOrder.note}` : '';
+
+      // 清除購物車與記錄（可視需求決定是否保留）
+      localStorage.removeItem('cart');
+      // localStorage.removeItem('lastOrder'); // 如想讓返回仍可看到紀錄就保留這行
+    } else {
+      document.getElementById('order-summary').innerHTML = '<p class="text-red-600">找不到您的訂單紀錄。</p>';
+    }
+  </script>
 </body>
 </html>
