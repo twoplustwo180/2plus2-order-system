@@ -28,26 +28,26 @@
 
   <script>
     const menu = [
-      { name: '海陸雙主餐（鮮魚、鹽麴五花肉-台灣豬）\nSURF AND TURF', price: 580 },
-      { name: '香煎鮮魚（本地現流海魚）\nPAN-FRIED FISH', price: '時價' },
-      { name: '現烤鮮魚（本地現流海魚）\nGRILLED FRESH FISH', price: '時價' },
-      { name: '豚香檸檬鹽麴（鹽麴五花肉-台灣豬）\nLEMON SHIO KOJI PORK', price: 450 },
-      { name: '苦茶油雞（阿里山苦茶油）\nSTIR-FRIED CHICKEN WITH CAMELLIA OIL', price: 480 },
-      { name: '匈牙利燉牛肉（澳洲牛肉）\nHUNGARIAN BEEF GOULASH', price: 480 },
-      { name: '嫩煎雞腿咖哩\nCHICKEN LEG CURRY RICE', price: 300 },
-      { name: '鹽麴味噌燉菜（素食）\nSHIO KOJI MISO STEW', price: 450 },
-      { name: '蔬食咖哩飯（五辛素）\nVEGETARIAN CURRY RICE', price: 300 },
-      { name: '武吉職人鬆餅\nWAFFLE', price: 160 },
-      { name: '鬆餅水果沙拉拼盤\nWAFFLES & FRESH FRUIT SALAD', price: 300 },
-      { name: '豬香溫沙拉（梅花肉-台灣豬、在地小農生菜）\nPLUM PORK & SALAD', price: 280 },
-      { name: '蔬食溫沙拉（在地小農生菜）\nVEGETARIAN WARM SALAD', price: 260 },
-      { name: '雙人炸物拼盤（魚條、花枝、香酥雞、杏鮑菇、洋蔥圈、薯條、2杯飲品任選）\nFRIED COMBO PLATTER (2P)', price: 499 },
-      { name: '素雙人炸物拼盤（智慧糕、杏鮑菇、時蘇、薯條、2杯飲品任選）\nVEGETARIAN FRIED COMBO (2P)', price: 499 },
-      { name: '薯條\nFRIES', price: 99 },
-      { name: '杏鮑菇\nKING OYSTER MUSHROOM', price: 99 },
-      { name: '洋蔥圈\nONION RINGS', price: 99 },
-      { name: '花枝排\nCUTTLEFISH STEAK', price: 150 },
-      { name: '酥炸魚塊\nFRIED FISH CUBES', price: 180 }
+      { name: `海陸雙主餐（鮮魚、鹽麴五花肉-台灣豬）\nSURF AND TURF`, price: 580 },
+      { name: `香煎鮮魚（本地現流海魚）\nPAN-FRIED FISH`, price: '時價' },
+      { name: `現烤鮮魚（本地現流海魚）\nGRILLED FRESH FISH`, price: '時價' },
+      { name: `豚香檸檬鹽麴（鹽麴五花肉-台灣豬）\nLEMON SHIO KOJI PORK`, price: 450 },
+      { name: `苦茶油雞（阿里山苦茶油）\nSTIR-FRIED CHICKEN WITH CAMELLIA OIL`, price: 480 },
+      { name: `匈牙利燉牛肉（澳洲牛肉）\nHUNGARIAN BEEF GOULASH`, price: 480 },
+      { name: `嫩煎雞腿咖哩\nCHICKEN LEG CURRY RICE`, price: 300 },
+      { name: `鹽麴味噌燉菜（素食）\nSHIO KOJI MISO STEW`, price: 450 },
+      { name: `蔬食咖哩飯（五辛素）\nVEGETARIAN CURRY RICE`, price: 300 },
+      { name: `武吉職人鬆餅\nWAFFLE`, price: 160 },
+      { name: `鬆餅水果沙拉拼盤\nWAFFLES & FRESH FRUIT SALAD`, price: 300 },
+      { name: `豬香溫沙拉（梅花肉-台灣豬、在地小農生菜）\nPLUM PORK & SALAD`, price: 280 },
+      { name: `蔬食溫沙拉（在地小農生菜）\nVEGETARIAN WARM SALAD`, price: 260 },
+      { name: `雙人炸物拼盤（魚條、花枝、香酥雞、杏鮑菇、洋蔥圈、薯條、2杯飲品任選）\nFRIED COMBO PLATTER (2P)`, price: 499 },
+      { name: `素雙人炸物拼盤（智慧糕、杏鮑菇、時蘇、薯條、2杯飲品任選）\nVEGETARIAN FRIED COMBO (2P)`, price: 499 },
+      { name: `薯條\nFRIES`, price: 99 },
+      { name: `杏鮑菇\nKING OYSTER MUSHROOM`, price: 99 },
+      { name: `洋蔥圈\nONION RINGS`, price: 99 },
+      { name: `花枝排\nCUTTLEFISH STEAK`, price: 150 },
+      { name: `酥炸魚塊\nFRIED FISH CUBES`, price: 180 }
     ];
 
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
