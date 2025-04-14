@@ -35,8 +35,8 @@
         <div><strong>時間：</strong>{{ order[3] }}</div>
         <div class="whitespace-pre-wrap"><strong>品項：</strong>{{ order[1] }}</div>
         <div><strong>總金額：</strong>${{ order[2] }}</div>
-        <div><strong>桌號：</strong>{{ order[5] or '—' }}</div>
-        <div><strong>備註：</strong>{{ order[6] or '—' }}</div>
+        <div><strong>桌號：</strong>{{ order[5] if order|length > 5 else '—' }}</div>
+        <div><strong>備註：</strong>{{ order[6] if order|length > 6 else '—' }}</div>
         <div><strong>狀態：</strong>{{ order[4] }}</div>
       </div>
     {% else %}
