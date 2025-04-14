@@ -10,7 +10,7 @@
   <div class="max-w-xl mx-auto">
     <h1 class="text-2xl font-bold mb-6 text-center">購物車</h1>
     <ul id="cart-list" class="space-y-3 mb-4"></ul>
-    <div class="text-right text-lg mb-4">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
+    <div class="text-right text-lg mb-2">總金額：<span id="total-price" class="font-bold text-blue-600">$0</span></div>
 
     <a href="index.html" class="block w-full text-center bg-gray-200 text-gray-800 py-3 rounded-lg shadow-md hover:bg-gray-300 mb-4">
       &larr; 回到菜單
@@ -43,6 +43,17 @@
       });
       localStorage.setItem('cart', JSON.stringify(flat));
       cart = flat;
+    }
+
+    function updateQuantity(name, delta) {
+      const grouped = groupCart(cart);
+      if (!grouped[name]) return;
+      grouped[name].quantity += delta;
+      if (grouped[name].quantity <= 0) {
+        delete grouped[name];
+      }
+      saveCart(grouped);
+      renderCart();
     }
 
     function renderCart() {
@@ -93,20 +104,11 @@
       totalPriceEl.textContent = `$${total}`;
     }
 
-    function updateQuantity(name, delta) {
-      const grouped = groupCart(cart);
-      if (!grouped[name]) return;
-      grouped[name].quantity += delta;
-      if (grouped[name].quantity <= 0) {
-        delete grouped[name];
-      }
-      saveCart(grouped);
-      renderCart();
-    }
-
     document.getElementById('submit-order').onclick = async () => {
       const grouped = groupCart(cart);
-      const items = Object.values(grouped).map(i => `${i.name} x${i.quantity}`).join(', ');
+      const items = Object.values(grouped)
+        .map(i => `${i.name.split('\n')[0].split('（')[0]} x${i.quantity}`)
+        .join('\n');
       const total = cart.reduce((sum, i) => sum + i.price, 0);
 
       await fetch('https://twoplus2-backend.onrender.com/submit-order', {
